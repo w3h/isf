@@ -1,0 +1,7 @@
+<t:config xmlns:t = "tc0" id = "c72514379eaad943b62f4080a5ae1dc61619f0f3" configversion = "1.1.0.0" name = "Schneider_CPU_Command" version = "1.1.0" > 
+<t:inputparameters>
+<t:parameter name = "TargetIp" description = "Target IP Address" type = "IPv4" value = "192.168.1.30" > </t:parameter>
+<t:parameter name = "TargetPort" description = "Target Port" type = "TcpPort" default = "502" value = "502" > </t:parameter>
+<t:parameter name = "Command" description = "The control command of cpu [stop/start]" type = "String" default = "stop" value = "start" > </t:parameter>
+</t:inputparameters>
+</t:config>

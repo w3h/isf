@@ -1,0 +1,5 @@
+[console_scripts]
+kitty-template-tester = kitty.bin.kitty_template_tester:_main
+kitty-tool = kitty.bin.kitty_tool:_main
+kitty-web-client = kitty.bin.kitty_web_client:_main
+

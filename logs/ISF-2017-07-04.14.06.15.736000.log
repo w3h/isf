@@ -1,0 +1,116 @@
+isf > autorun
+[*] Autorun ON
+
+Exploit Autorun List
+====================
+
+  0) apply
+  1) touch all
+  2) prompt confirm
+  3) execute
+
+
+Payload Autorun List
+====================
+
+  0) apply
+  1) prompt confirm
+  2) execute
+
+
+isf > setg FbStorage D:\isf\isf\storage
+[+] Set FbStorage =>. D:\isf\isf\storage
+isf > show
+
+Plugin Categories
+=================
+
+  Category     Active Plugin
+  --------     -------------
+  Exploit      None
+  Payload      None
+
+isf > show Payload
+
+Plugin Category: Payload
+========================
+
+  Name              Version
+  ----              -------
+  Doublepulsar      1.3.1
+  Jobadd            1.1.1
+  Jobdelete         1.1.1
+  Joblist           1.1.1
+  Pcdlllauncher     2.3.1
+  Processlist       1.1.1
+  Regdelete         1.1.1
+  Regenum           1.1.1
+  Regread           1.1.1
+  Regwrite          1.1.1
+  Rpcproxy          1.0.1
+  Smbdelete         1.1.1
+  Smblist           1.1.1
+  Smbread           1.1.1
+  Smbwrite          1.1.1
+
+isf > use Regread
+
+[!] Entering Plugin Context :: Regread
+[*] Applying Global Variables
+[+] Set NetworkTimeout => 60
+
+isf Payload (Regread) > apply
+[*] Applying Session Parameters
+isf Payload (Regread) > prompt confirm
+
+[!] Enter Prompt Mode :: Regread
+
+Module: Regread
+===============
+
+  Name                Value                                                 
+  ----                -----                                                 
+  NetworkTimeout      60                                                    
+  TargetIp                                                                  
+  TargetPort          445                                                   
+  RegKey                                                                    
+  RegValue                                                                  
+  RegHive                                                                   
+  AuthLevel                                                                 
+  CredentialType                                                            
+
+[!] plugin variables are valid
+
+[*]  NetworkTimeout :: Timeout for blocking network calls (in seconds)
+
+[+] Set NetworkTimeout => 60
+
+[*]  TargetIp :: Target IP Address
+
+[+] Set TargetIp => 127.0.0.1
+
+[*]  TargetPort :: Port used by the winreg service
+
+[+] Set TargetPort => 445
+
+[*]  RegKey :: The registry key to read, as string or hex bytes
+
+
+Module: Regread
+Parameter: RegKey
+
+  Parameter Attribute     Value
+  -------------------     -----
+  Name                    RegKey
+  Value                   
+  Type                    UString
+  Description             The registry key to read, as string or hex bytes
+  Is Valid                NO
+  Required                NO
+
+
+[*]  RegKey :: The registry key to read, as string or hex bytes
+
+
+[-] Prompt Error: Aborted by user
+isf Payload (Regread) > EOF
