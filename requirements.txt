@@ -1,1 +1,2 @@
+dnet==1.12
 pypiwin32
