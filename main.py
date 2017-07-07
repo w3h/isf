@@ -22,6 +22,7 @@ Plugin directories
 """
 PAYLOAD_DIR = os.path.join(ISF_DIR, "module/payloads")
 EXPLOIT_DIR = os.path.join(ISF_DIR, "module/exploits")
+INFO_DIR = os.path.join(ISF_DIR, "module/information")
 
 
 """
@@ -64,6 +65,7 @@ def load_plugins(isf):
 
     addplugins(isf, "Exploit", EXPLOIT_DIR, EDFPlugin)
     addplugins(isf, "Payload", PAYLOAD_DIR, EDFPlugin)
+    addplugins(isf, "Information", INFO_DIR, EDFPlugin)
     return
 
 @exception.exceptionwrapped

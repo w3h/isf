@@ -588,10 +588,10 @@ class IOhandler:
 
 
     def print_set_choices(self, choices):
-        choices.insert(0, ("Parameter Options", "Description"))
-        choices.insert(1, ("-----------------", "-----------"))
+        choices.insert(0, ("Parameter Options  ", "Description"))
+        choices.insert(1, ("-----------------  ", "-----------"))
         widths = self.get_column_max_width(choices)
-        fmt = "    %%-%ds %%s" % (widths[0] + 4)
+        fmt = "  %%-%ds %%s" % (widths[0] + 4)
         self.vprint(fmt, choices)
         
 
@@ -616,7 +616,7 @@ class IOhandler:
         widths = self.get_column_max_width(param_list)
         widths[0] = max(widths[0], len('Name'))
         widths[1] = max(widths[1], len('Value'))
-        widths[2] = 50
+        widths[2] = max(widths[2], len('Description'))
         self.print_table(widths, [('Name', 'Value', 'Description')], param_list)
 
     def print_touch_info(self, args):
@@ -729,10 +729,12 @@ class IOhandler:
         #params = iDict(paramList)
 
         try:
-            self.print_headingline_new("Local")
+            #self.print_headingline_new("Local")
             if not redir or not redir['local']:
-                self.write("   *Empty* ")
+                pass
+                #self.write("   *Empty* ")
             else:
+                self.print_headingline_new("Local")
                 for l in redir['local']:
                     self.write("  Name: %s" % l.name)
                     self.write("  Protocol: %s" % l.protocol)
@@ -742,10 +744,13 @@ class IOhandler:
                     self.write("  Destination Port: %s" % l.destport)
                     self.write("  Source Port : %s" % l.srcport)
                     self.write("")
-            self.print_headingline_new("Remote")
+
+            #self.print_headingline_new("Remote")
             if not redir or not redir['remote']:
-                self.write("   *Empty* ")
+                pass
+                #self.write("   *Empty* ")
             else:
+                self.print_headingline_new("Remote")
                 for r in redir['remote']:
                     self.write("  Name: %s" % r.name)
                     self.write("  Protocol: %s" % r.protocol)
@@ -838,7 +843,7 @@ class IOhandler:
     """
     def print_standardop(self):
         standardop = """
-    Fuzzbunch2 Standard OP Usage Help
+    ISF Standard OP Usage Help
     ---------------------------------
 
     === Summary ===

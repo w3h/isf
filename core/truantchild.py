@@ -763,6 +763,7 @@ class Config:
             self.id            = trch.Config_getID(self.config)
             self.name          = trch.Config_getName(self.config)
             self.version       = trch.Config_getVersion(self.config)
+            self.author        = trch.Config_getAuthor(self.config)
             self.configVersion = trch.Config_getConfigVersion(self.config)
             self.namespaceUri  = trch.Config_getNamespaceUri(self.config)
             self.schemaVersion = trch.Config_getSchemaVersion(self.config)
@@ -803,6 +804,9 @@ class Config:
 
     def getVersion(self):
         return self.version
+
+    def getAuthor(self):
+        return self.author
 
     def getConfigVersion(self):
         return self.configVersion

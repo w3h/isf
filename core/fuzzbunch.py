@@ -914,6 +914,7 @@ class Fuzzbunch(FbCmd):
         
     def _prompt_for_project(self, projects):
         try:
+            self.io.print_headingline("Project Information")
             vals = [(str(i), v) for i,v in enumerate(projects)]
             vals.append( tuple([str(len(vals)), "Create a New Project"]) )
             widths = self.io.get_column_max_width(vals)

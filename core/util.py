@@ -8,7 +8,6 @@ Utility classes and functions
 """
 import re
 import string
-from scapy.all import *
 import datetime
 from operator import itemgetter
 

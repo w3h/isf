@@ -13,6 +13,7 @@ MAX_PARAM_ECHO_LEN = 60
 EDF_PLUGIN_INFO = """
     Name: %s
  Version: %s
+  Author: %s
     Type: %s
 """
 
@@ -112,15 +113,16 @@ class PluginManager(CmdCtx):
         self.io.print_headingline("Information")
         self.io.write(EDF_PLUGIN_INFO % (plugin.getName(), 
                                          plugin.getVersion(),
+                                         plugin.getAuthor(),
                                          self.get_type()))
         #self.io.write(plugin.getBinaryHash() + "\n")
         #self.io.write(plugin.getConfigHash() + "\n")
         #self.io.write(plugin.getMetaHash() + "\n")
-                                         
 
-        self.io.print_headingline("Redirection")
-        self.io.print_redir_info(plugin.getRedirection(), 
-                                 plugin.getParameters())
+        redir = plugin.getRedirection()
+        if redir and (redir['local'] or redir['remote']):
+            self.io.print_headingline("Redirection")
+            self.io.print_redir_info(redir, plugin.getParameters())
 
         # Bug #2133: Fix this so that hidden parameters are cached but not
         # displayed

@@ -29,7 +29,7 @@ class VENDOR(object):
     SI = {'en': 'Siemens', 'zh': '西门子'}
     HSM = {'en': 'Hirschmann', 'zh': '赫思曼'}
     BF = {'en': 'Bechoff', 'zh': '倍福'}
-    NOE = {'en': 'Schneider', 'zh': '施耐德'}
+    SID = {'en': 'Schneider', 'zh': '施耐德'}
     HYS = {'en': 'HollySys', 'zh': '和利时'}
     HYW = {'en': 'Honeywell', 'zh': '霍尼韦尔'}
     GE = {'en': 'General Electric', 'zh': '通用电气'}

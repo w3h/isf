@@ -224,6 +224,10 @@ def Config_getVersion(*args):
   s = args[0].getAttribute('version')
   return s
 
+def Config_getAuthor(*args):
+  s = args[0].getAttribute('author')
+  return s
+
 def Config_marshal(*args):
   info = []
   dom = args[0]
@@ -1052,7 +1056,7 @@ def Paramgroup_getNumParameters(*args):
   num = 0
   try:
     for rt in args[0].childNodes:
-      if rt.nodeName == 'parameter':
+      if rt.nodeName == 'parameter' or rt.nodeName == 't:parameter':
         num = num + 1
   except:
     pass
@@ -1063,7 +1067,7 @@ def Paramgroup_getParamchoice(*args):
   dom = []
   try:
     for rt in args[0].childNodes:
-      if rt.nodeName == 'paramchoice':
+      if rt.nodeName == 'paramchoice' or rt.nodeName == 't:paramchoice':
         dom.append(rt)
   except:
     pass
@@ -1074,7 +1078,7 @@ def Paramgroup_getParameter(*args):
   dom = []
   try:
     for rt in args[0].childNodes:
-      if rt.nodeName == 'parameter':
+      if rt.nodeName == 'parameter' or rt.nodeName == 't:parameter':
         dom.append(rt)
   except:
     pass

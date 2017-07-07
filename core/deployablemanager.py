@@ -11,12 +11,6 @@ from pluginmanager import PluginManager
 
 MAX_PARAM_ECHO_LEN = 60
 
-EDF_PLUGIN_INFO = """
-    Name: %s
- Version: %s
-    Type: %s
-"""
-
 __all__ = ["DeployableManager"]
 
 class DeployableManager(PluginManager):
