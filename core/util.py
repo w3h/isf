@@ -6,10 +6,10 @@ Utility classes and functions
 - iDict : Case insensitive dictionary
 - 
 """
-import datetime
 import re
 import string
-
+from scapy.all import *
+import datetime
 from operator import itemgetter
 
 GVAR_CHAR = '$'
@@ -30,7 +30,8 @@ __all__ = ['charconvert',
            'variable_replace',
            'has_nonprintable',
            'parse_param_list',
-           'scalar_to_list',]
+           'scalar_to_list',
+           'CreateTcpSocket']
 
 """
 string converters

@@ -23,6 +23,7 @@ IDENTCHARS = string.ascii_letters + string.digits + '_'
 INTERACTIVE    = 1
 NONINTERACTIVE = 2
 
+
 class FbCmd(cmd.Cmd):
     """Reimplementation of the Python Cmd class to fit more inline with Fuzzbunch
     needs and operation.  It effectively provides a base set of capabilities and

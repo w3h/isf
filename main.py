@@ -42,7 +42,7 @@ def make_env_path():
 
 def do_interactive(isf):
     gvars = globals()
-    gvars['quit'] = (lambda *x: fb.io.print_error("Press Ctrl-D to quit"))
+    gvars['quit'] = (lambda *x: isf.io.print_error("Press Ctrl-D to quit"))
     gvars['exit'] = gvars['quit']
     isf.io.print_warning("Dropping to Interactive Python Interpreter")
     isf.io.print_warning("Press Ctrl-D to exit")
@@ -69,6 +69,8 @@ def load_plugins(isf):
 @exception.exceptionwrapped
 def setup_and_run(config, fbdir, logdir):
     make_env_path()
+
+    global isf
     isf = Fuzzbunch(config, fbdir, logdir)
     isf.printbanner()
     load_plugins(isf)
