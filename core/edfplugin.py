@@ -17,6 +17,7 @@ import xml.parsers.expat as expat
 
 __all__ = ["EDFPlugin"]
 
+
 class EDFPlugin(Plugin):
     def __init__(self, files, io):
         try:

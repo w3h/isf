@@ -9,7 +9,8 @@ from core.edfplugin import EDFPlugin
 from core.fuzzbunch import Fuzzbunch
 from core.pluginfinder import addplugins
 from core import exception
-
+from core.daveplugin import DAVEPlugin
+from core.deployablemanager import DeployableManager
 
 """
 Set up core paths
@@ -23,7 +24,7 @@ Plugin directories
 PAYLOAD_DIR = os.path.join(ISF_DIR, "module/payloads")
 EXPLOIT_DIR = os.path.join(ISF_DIR, "module/exploits")
 INFO_DIR = os.path.join(ISF_DIR, "module/information")
-
+SPECIAL_DIR = os.path.join(ISF_DIR, "module/specials")
 
 """
 ISF directories
@@ -50,6 +51,7 @@ def do_interactive(isf):
     code.interact(local=gvars, banner="")
 
 def main(isf):
+    isf.printbanner()
     while 1:
         try:
             isf.cmdloop()
@@ -66,6 +68,7 @@ def load_plugins(isf):
     addplugins(isf, "Exploit", EXPLOIT_DIR, EDFPlugin)
     addplugins(isf, "Payload", PAYLOAD_DIR, EDFPlugin)
     addplugins(isf, "Information", INFO_DIR, EDFPlugin)
+    addplugins(isf, "Special", SPECIAL_DIR, DAVEPlugin, DeployableManager)
     return
 
 @exception.exceptionwrapped
@@ -74,7 +77,6 @@ def setup_and_run(config, fbdir, logdir):
 
     global isf
     isf = Fuzzbunch(config, fbdir, logdir)
-    isf.printbanner()
     load_plugins(isf)
     main(isf)
 

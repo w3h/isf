@@ -16,6 +16,7 @@ __all__ = ["DeployableManager"]
 class DeployableManager(PluginManager):
     def __init__(self, type, fb):
         PluginManager.__init__(self, type, fb)
+
     def exe_print_params(self, plugin, redirid):
         args = {'title'   : plugin.getName(),
                 'session' : self.fb.redirection.get_session(redirid),

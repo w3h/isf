@@ -17,7 +17,7 @@ class DAVEPlugin(EDFPlugin):
         # restriction based on delivery mechanisms, not the DAVE spec itself)
         import sys
         if sys.platform != "win32":
-            raise EnvironmentError("DAVEPlugins are supported only on Windows for this version of Fuzzbunch!")
+            raise EnvironmentError("DAVEPlugins are supported only on Windows for this version of ISF!")
         
         try:
             EDFPlugin.__init__(self, files, io)

@@ -827,14 +827,14 @@ class IOhandler:
     def print_autoruncmds(self, status, auto):
         if status:
             self.print_msg("Autorun ON")
-            for cat, cmds in auto.items():
-                self.print_headingline(cat + " Autorun List")
-                for i,cmd in enumerate(cmds):
-                    self.write("  %d) %s" % (i,cmd[0]))
-                self.newline()
+            #for cat, cmds in auto.items():
+            #    self.print_headingline(cat + " Autorun List")
+            #    for i,cmd in enumerate(cmds):
+            #        self.write("  %d) %s" % (i,cmd[0]))
+            #    self.newline()
         else:
             self.print_msg("Autorun OFF")
-        self.newline()
+        #self.newline()
 
 
     """

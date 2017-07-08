@@ -56,8 +56,9 @@ def getpluginlist(location, bin):
     @param  location        Directory to search for plugins
     @param  bin             Is what we're trying to load binary?
     """
-    fblist     = getextensionfiles_subdir(location, PLUGIN_CONFIG_EXT)         # get list of .fb files
-    configlist = getextensionfiles_subdir(location, PLUGIN_CONFIG_EXT)     # get list of .xml files
+    fblist     = getextensionfiles_subdir(location, FB_CONFIG_EXT)         # get list of .fb files
+    configlist = getextensionfiles_subdir(location, PLUGIN_CONFIG_EXT)
+    fblist.extend(configlist)
     dirlist    = getdirlist(location)
     pluginlist = []
 
