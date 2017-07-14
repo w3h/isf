@@ -1,12 +1,6 @@
-"""
-IO Handling classes
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
 
-The IO Handler works as a wrapper around all user input and output.
-
-Theoretically, to change the way Fuzzbunch looks should only require changing
-this file.  Specialized print functions provide a template-like facility.
-
-"""
 import sys
 import exception
 from util import variable_replace

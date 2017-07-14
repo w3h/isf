@@ -618,9 +618,10 @@ def Parameter_Boolean_create(*args):
   pass
 
 def Parameter_Boolean_setValue(*args):
-  print "Parameter_Boolean_setValue"
-  print args
-  args[0].setAttribute('value', args[1])
+  if args[1]:
+    args[0].setAttribute('value', "True")
+  else:
+    args[0].setAttribute('value', "False")
 
 def Parameter_Boolean_List_create(*args):
   print("[!] Parameter_Boolean_List_create")

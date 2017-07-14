@@ -23,7 +23,7 @@ Plugin directories
 """
 PAYLOAD_DIR = os.path.join(ISF_DIR, "module/payloads")
 EXPLOIT_DIR = os.path.join(ISF_DIR, "module/exploits")
-INFO_DIR = os.path.join(ISF_DIR, "module/information")
+TOUCH_DIR = os.path.join(ISF_DIR, "module/touches")
 SPECIAL_DIR = os.path.join(ISF_DIR, "module/specials")
 
 """
@@ -67,7 +67,7 @@ def load_plugins(isf):
 
     addplugins(isf, "Exploit", EXPLOIT_DIR, EDFPlugin)
     addplugins(isf, "Payload", PAYLOAD_DIR, EDFPlugin)
-    addplugins(isf, "Information", INFO_DIR, EDFPlugin)
+    addplugins(isf, "Touch", TOUCH_DIR, EDFPlugin)
     addplugins(isf, "Special", SPECIAL_DIR, DAVEPlugin, DeployableManager)
     return
 

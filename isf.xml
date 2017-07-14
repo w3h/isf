@@ -44,7 +44,7 @@
             <t:command value="prompt confirm"/>
             <t:command value="execute"/>
         </t:category>
-        <t:category name="Information">
+        <t:category name="Touch">
             <t:command value="apply"/>
             <t:command value="touch all" msg="Running Exploit Touches"/>
             <t:command value="prompt confirm"/>
