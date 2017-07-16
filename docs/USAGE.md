@@ -192,46 +192,42 @@ use命令使用，调用相关插件，并根据命令行提示配置参数，�
 > 2、填写POC基础信息 pocinfo
 > 3、注册命令行，向register_options变量增加make_option对象即可，注意参数名称需要与xml文件保持一致
 > 4、实现exploit函数
+
     
     #!/usr/bin/env python
     # coding=utf-8
     from core.exploit import *
 
 
-    class MyPoc(BaseExploit):
-        pocinfo = {
-            'ID': 'ICF-2017-000001',
-            'Name': '施耐德昆腾140系列PLC CPU控制',
-            'Author': 'w3h',
-            'Create_Date': '2017-04-09',
-            'Description': '''施耐德昆腾140系列PLC认证用户时Session使用是单比特，导致攻击者可以向PLC发送CPU控制指令。''',
-    
-            'Vendor': VENDOR.SI,
-            'Device': ['Schneider Quantum 140'],
-            'App': '',
-            'Protocol': 'modbus',
-            'References': {'CVE': '', 'CNVD': '', 'OSVDB': '', 'CNNVD': ''},
-    
-            'Risk': RISK.H,  # H/M/L
-            'VulType': VULTYPE.REP
-        }
-    
-        register_options = [
-            make_option('--TargetIp', action='store', dest='TargetIp',
-                        type='string', default=None, help='The target of this poc.'),
-            make_option('--TargetPort', action='store', dest='TargetPort',
-                        type='int', default=502, help='The port of this poc [default:502].'),
-            make_option('--Command', help='The constrol commond of cpu', dest="Command", default="stop"),
-        ]
-    
-        def exploit(self, *args, **kwargs):
-            cmd = self.getParam("Command")
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect((self.TargetIp, self.TargetPort))
-            pass
-    
-    # POC标准入口函数
-    MainEntry(MyPoc, __name__)
+    class MyScript(BaseExploit):
+    register_info = {
+        'ID': 'ICF-2017-00020001',
+        'Name': '施耐德昆腾140系列PLC CPU控制',
+        'Author': 'w3h',
+        'License': ISF_LICENSE,
+        'Create_Date': '2017-04-09',
+        'Description': '''施耐德昆腾140系列PLC认证用户时Session使用是单比特，导致攻击者可以向PLC发送CPU控制指令。''',
+
+        'Vendor': VENDOR.SID,
+        'Device': ['Schneider Quantum 140'],
+        'App': '',
+        'Protocol': 'modbus',
+        'References': {'CVE': '', 'CNVD': '', 'OSVDB': '', 'CNNVD': ''},
+
+        'Risk': RISK.H,  # H/M/L
+        'VulType': VULTYPE.REP
+    }
+
+    register_options = [
+        mkopt_rport(502),
+        mkopt('--Command', help='The constrol commond of cpu', dest="Command", default="stop"),
+    ]
+
+    def exploit(self, *args, **kwargs):
+        cmd = self.getParam("Command")
+
+
+    MainEntry(MyScript, __name__)
     
 
 
