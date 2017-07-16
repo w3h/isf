@@ -188,9 +188,12 @@ use命令使用，调用相关插件，并根据命令行提示配置参数，�
     
 漏洞利用脚本编写方法如下，如果不清楚可以直接拷贝如下模板进行修改
 
-> 1、继承基础类 BaseExploit 
-> 2、填写POC基础信息 pocinfo
-> 3、注册命令行，向register_options变量增加make_option对象即可，注意参数名称需要与xml文件保持一致
+> 1、继承基础类 BaseExploit
+ 
+> 2、填写POC基础信息 register_info
+
+> 3、注册命令行，向register_options变量增加mkopt对象即可，注意参数名称需要与xml文件保持一致
+
 > 4、实现exploit函数
 
     
