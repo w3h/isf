@@ -36,13 +36,13 @@ if mswindows:
     ERROR_PIPE_CONNECTED = 535
     ERROR_IO_PENDING = 997
 
-    PIPE_PREFIX = "\\\\.\\pipe\\fb-pipe"
+    PIPE_PREFIX = "\\\\.\\pipe\\isf-pipe"
 
 else:
     import signal
     import subprocess
 
-    PIPE_PREFIX = "/tmp/fb-pipe-"
+    PIPE_PREFIX = "/tmp/isf-pipe-"
 
 
 #

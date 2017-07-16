@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<t:config id="484fa27560c34d4655ee4c36e4cd2857"
+          name="nmapscript"
+          version="1.1.0"
+          configversion="1.1.0.0"
+          author="w3h"
+          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+          xmlns:t='tc0'>
+
+          <t:inputparameters>
+              <t:parameter name="TargetIp" description="The Target is ip address or list" type="String"/>
+              <t:paramchoice name="NampScript" description="The nmap script file">
+                  <t:paramgroup name="s7-enumerate.nse" description="Enumerates Siemens S7 PLC Devices">
+                      <t:parameter name="Script"  description="The Target Port" type="String" value="s7-enumerate.nse"  hidden="true"/>
+                      <t:parameter name="TargetPort"  description="The default S7 PLC Port" type="TcpPort" default="102"/>
+                  </t:paramgroup>
+                  <t:paramgroup name="fox-info.nse" description="Enumerates Tridium Niagara Fox Information">
+                      <t:parameter name="Script"  description="The Target Port" type="String" value="fox-info.nse"  hidden="true"/>
+                      <t:parameter name="TargetPort"  description="The default Tridium Niagara Fox Port" type="TcpPort" default="1911"/>
+                  </t:paramgroup>
+        </t:paramchoice>
+         
+    </t:inputparameters>
+
+</t:config>

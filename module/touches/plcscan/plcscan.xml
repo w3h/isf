@@ -8,17 +8,7 @@
           xmlns:t='tc0'>
 
     <t:inputparameters>
-      <t:paramchoice name="TargetType" description="The type of target eg:ip/ip list/ip file" default="TargetIp">
-            <t:paramgroup name="IP" description="The Target is ip address">
-                <t:parameter name="TargetIp" description="The Target is ip address" type="IPv4"/>
-            </t:paramgroup>
-            <t:paramgroup name="IP List" description="The Target is ip address list">
-                <t:parameter name="TargetIpList" description="The Target is ip address list" type="String"/>
-            </t:paramgroup>
-            <t:paramgroup name="IP File" description="The Target is local file of ip address">
-                <t:parameter name="TargetIpFile" description="The Target is local file of ip address" type="LocalFile"/>
-            </t:paramgroup>
-      </t:paramchoice>
+      <t:parameter name="TargetIp" description="The Target is ip address or list or file" type="String"/>
       <t:parameter name="Ports" description="The Target Ports" type="String" default="102,502"/>
     </t:inputparameters>
 

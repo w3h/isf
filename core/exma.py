@@ -75,8 +75,8 @@ except:
         print args
 
     def readParamsFromEM(*args):
-        f = open(str(args[0]))
-        return str(f.read())
+        with open(str(args[0])) as f:
+            return str(f.read())
 
     def writeParamsToEM(*args):
         print "[!] writeParamsToEM"

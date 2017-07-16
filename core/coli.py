@@ -42,19 +42,15 @@ class CommandlineWrapper(object):
     def __init__(self):
         # This takes care of addWrapperInputs
         self.options = {}
-        self.newframer = False
-
-    def get_options(self):
-        usage = 'usage: %prog [options] arg1'
-        self.__coli_parser = OptionParser(usage=usage, description='This POC is created for security research.')
+        self.__coli_parser = OptionParser()
         self.__coli_parser.add_option("--InConfig",        dest="InConfig", help="The Input XML file" )
-        self.__coli_parser.add_option("--OutConfig",       dest="OutConfig", default=sys.stdout,
+        self.__coli_parser.add_option("--OutConfig",       dest="OutConfig", default=sys.stdout, 
                                       help="Output XML file")
-        self.__coli_parser.add_option("--LogFile",         dest="LogFile",   default=None,
+        self.__coli_parser.add_option("--LogFile",         dest="LogFile",   default=None,       
                                       help="Truantchild log file")
-        self.__coli_parser.add_option("--ValidateOnly",    dest="ValidateOnly", default=False, action="store_true",
+        self.__coli_parser.add_option("--ValidateOnly",    dest="ValidateOnly", default=False, action="store_true", 
                                       help="Valid params")
-
+        
     def get_coli_parser(self):
         return self.__coli_parser
 
@@ -66,12 +62,6 @@ class CommandlineWrapper(object):
         pass
 
     def __call__(self, argv):
-        if self.newframer:
-            return
-
-        return self.run(argv)
-
-    def run(self, argv):
         """Effectively "main" from Commandlinewrapper"""
         logConfig = None
         context = {}
@@ -112,7 +102,7 @@ class CommandlineWrapper(object):
                 return 1
 
             self.TargetIp = self.getParam('TargetIp')
-            self.TargetPort = self.getParam('TargetPort')
+            self.TargetPort = int(self.getParam('TargetPort'))
 
             # XXX Print the invalid options
             if opts.ValidateOnly is True:
@@ -145,7 +135,7 @@ class CommandlineWrapper(object):
             raise
         except Exception as e:
             print("[+] Failed: {0}".format(e))
-            return e
+            raise
 
         return retval
 

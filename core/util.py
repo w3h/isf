@@ -10,27 +10,10 @@ import re
 import string
 import datetime
 from operator import itemgetter
+from optparse import *
+
 
 GVAR_CHAR = '$'
-
-__all__ = ['charconvert', 
-           'superTuple', 
-           'Param', 
-           'oParam', 
-           'iDict', 
-           'validateip', 
-           'convert_consolemode', 
-           'consolemode_map',
-           'CONSOLE_REUSE', 
-           'CONSOLE_NEW', 
-           'CONSOLE_DEFAULT',
-           'formattime', 
-           'parseinput', 
-           'variable_replace',
-           'has_nonprintable',
-           'parse_param_list',
-           'scalar_to_list',
-           'CreateTcpSocket']
 
 """
 string converters
@@ -352,3 +335,13 @@ def SendArpSpoofing(src_ip, src_mac, dst_ip, dst_mac, my_iface, my_verbose):
     arp.psrc = src_ip
     arp.hwsrc = src_mac
     send(arp, iface=my_iface, verbose=my_verbose)
+
+def make_option_rport(p):
+    r = make_option('-p', '--TargetPort', action='store', dest='TargetPort',
+                    type='int', default=int(p),
+                    help='The port of this poc [default:%d].' % int(p))
+    return r
+
+
+mkopt       = make_option
+mkopt_rport = make_option_rport

@@ -5,6 +5,16 @@ import util
 import xml.parsers.expat as expat
 import exception
 import re
+import binascii
+
+
+def getTagText(root, tag):
+    node = root.getElementsByTagName(tag)[0]
+    rc = ""
+    for node in node.childNodes:
+        if node.nodeType in ( node.TEXT_NODE, node.CDATA_SECTION_NODE):
+            rc = rc + node.data
+    return rc
 
 def getText(node, recursive = False):
   L = ['']
@@ -50,6 +60,43 @@ def get_root_elements_by_name(xmlDoc, tag, name):
 
   return None
 
+
+def get_node_default(dom):
+  ret = dom.getAttribute('default')
+  if ret: return ret
+  tmp = get_elements(dom, 'default')
+  if len(tmp) == 0:
+    return None
+
+  return getText(tmp[0])
+
+def get_node_value(dom):
+  ret = dom.getAttribute('value')
+  if ret: return ret
+  tmp = get_elements(dom, 'value')
+  if len(tmp) == 0:
+    return None
+
+  return getText(tmp[0])
+
+def node_getValue(dom):
+  ret = get_node_value(dom)
+  if ret: return ret
+  ret = get_node_default(dom)
+  return ret
+
+def node_setValue(dom, value):
+  if str(dom.nodeName).find('t:') == 0:
+    dom.setAttribute('value', str(value))
+    return
+
+  impl = xml.dom.minidom.getDOMImplementation()
+  kk = impl.createDocument(None, 'catalog', None)
+  item = kk.createElement('value')
+  text = kk.createTextNode(str(value))
+  item.appendChild(text)
+  dom.appendChild(item)
+
 class TrchError(Exception):
   pass
 
@@ -58,13 +105,7 @@ def Exc_Trch(*args):
   pass
 
 def Parameter_Boolean_getValue(*args):
-  ret = str(args[0].getAttribute('value'))
-  if ret.lower() in ("false", "f", "0", "off"):
-    return False
-  elif ret.lower() in ("true", "t", "1", "on"):
-    return True
-
-  ret = str(args[0].getAttribute('default'))
+  ret = str(node_getValue(args[0]))
   if ret.lower() in ("false", "f", "0", "off"):
     return False
   elif ret.lower() in ("true", "t", "1", "on"):
@@ -73,104 +114,55 @@ def Parameter_Boolean_getValue(*args):
   return False
 
 def Parameter_IPv4_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_IPv6_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_LocalFile_getValue(*args):
-  print("[!] Parameter_LocalFile_getValue")
-  pass
+  return node_getValue(args[0])
 
 def Parameter_Port_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_S8_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_S16_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_S32_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_S64_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_U8_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_U16_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_U32_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_U64_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_Socket_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_String_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_UString_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Parameter_Buffer_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Paramchoice_getValue(*args):
-  ret = args[0].getAttribute('value')
-  if ret: return ret
-  ret = args[0].getAttribute('default')
-  return ret
+  return node_getValue(args[0])
 
 def Config_create(*args):
   print("[!] Config_create")
@@ -229,77 +221,8 @@ def Config_getAuthor(*args):
   return s
 
 def Config_marshal(*args):
-  info = []
   dom = args[0]
-  info.append(dom.getAttribute('xmlns:t'))
-  info.append(dom.getAttribute('id'))
-  info.append(dom.getAttribute('configversion'))
-  info.append(dom.getAttribute('name'))
-  info.append(dom.getAttribute('version'))
-  ret = '''<t:config xmlns:t = "{}" id = "{}" configversion = "{}" name = "{}" version = "{}" > \r\n'''.format(*info)
-
-  input = get_elements(dom, "inputparameters")
-  if input and input[0]:
-    ret += "<t:inputparameters>\r\n"
-    inputpara = get_elements(input[0], "parameter")
-    for d in inputpara:
-      info = []
-      info.append(d.getAttribute('name'))
-      info.append(d.getAttribute('description'))
-      info.append(d.getAttribute('type'))
-      ret += '''<t:parameter name = "{}" description = "{}" type = "{}" '''.format(*info)
-
-      tmp = d.getAttribute('format')
-      if tmp:
-        ret += 'format = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('default')
-      if tmp:
-        ret += 'default = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('valid')
-      if tmp:
-        ret += 'valid = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('value')
-      if tmp:
-        ret += 'value = "' + str(tmp) + '" '
-
-      ret += "> </t:parameter>\r\n"
-    ret += "</t:inputparameters>\r\n"
-
-  output = get_elements(dom, "outputparameters")
-  if output and output[0]:
-    ret += "<t:outputparameters>\r\n"
-    inputpara = get_elements(input[0], "parameter")
-    for d in inputpara:
-      info = []
-      info.append(d.getAttribute('name'))
-      info.append(d.getAttribute('description'))
-      info.append(d.getAttribute('type'))
-      ret += '''<t:parameter name = "{}" description = "{}" type = "{}" '''.format(*info)
-
-      tmp = d.getAttribute('format')
-      if tmp:
-        ret += 'format = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('default')
-      if tmp:
-        ret += 'default = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('valid')
-      if tmp:
-        ret += 'valid = "' + str(tmp) + '" '
-
-      tmp = d.getAttribute('value')
-      if tmp:
-        ret += 'value = "' + str(tmp) + '" '
-
-      ret += "> </t:parameter>\r\n"
-    ret += "</t:outputparameters>\r\n"
-
-  ret += '</t:config>'
-  return ret
+  return str(dom.toxml())
 
 def Config_printUsage(*args):
   print("[!] Config_printUsage")
@@ -436,7 +359,7 @@ def Paramchoice_delete(*args):
   pass
 
 def Paramchoice_getDefaultValue(*args):
-  return args[0].getAttribute('default')
+  return get_node_default(args[0])
 
 def Paramchoice_getDescription(*args):
   return args[0].getAttribute('description')
@@ -453,13 +376,39 @@ def Paramchoice_getParamgroup(*args):
   return dom[args[1]]
 
 def Paramchoice_hasValidValue(*args):
-  if args[0].getAttribute('value'):
-    return True
-  else:
-    return False
+  v = args[0].getAttribute('value')
+  if not v:
+    tmp = get_elements(args[0], 'value')
+    if len(tmp) == 0:
+      return False
+    v = tmp[0].toxml()
+    v = v.replace("<value>", "")
+    v = v.replace("</value>", "")
+    v = v.replace("<value/>", " ")
+
+  for rt in get_elements(args[0], 'paramgroup'):
+    tmp = rt.getAttribute('name')
+    if tmp == v:
+      return True
+
+  return False
 
 def Paramchoice_hasValue(*args):
-  return args[0].getAttribute('value')
+  ret = args[0].getAttribute('value')
+  if ret:
+    return True
+  tmp = get_elements(args[0], 'value')
+  if len(tmp) != 0:
+    return True
+
+  ret = args[0].getAttribute('default')
+  if ret:
+    return True
+  tmp = get_elements(args[0], 'default')
+  if len(tmp) != 0:
+    return True
+
+  return False
 
 def Paramchoice_isValid(*args):
   r = args[0].getAttribute('valid')
@@ -503,18 +452,31 @@ def Parameter_getType(*args):
   return args[0].getAttribute('type')
 
 def Parameter_hasValue(*args):
-  r = args[0].getAttribute('value')
-  if r: return True
-  r = args[0].getAttribute('default')
-  if r: return True
+  ret = args[0].getAttribute('value')
+  if ret:
+    return True
+  tmp = get_elements(args[0], 'value')
+  if len(tmp) != 0:
+    return True
+
+  ret = args[0].getAttribute('default')
+  if ret:
+    return True
+  tmp = get_elements(args[0], 'default')
+  if len(tmp) != 0:
+    return True
+
   return False
 
 def Parameter_hasValidValue(*args):
-  v = args[0].getAttribute('value')
-  if not v:
-    return False
+  v = get_node_value(args[0])
+  t = args[0].getAttribute('type').upper()
 
-  t  = args[0].getAttribute('type').upper()
+  if not v:
+    v = get_node_default(args[0])
+    if not v:
+      return False
+
   if t == 'S8':
     if int(v) > pow(2,8) or int(v) < -pow(2,8):
       return False
@@ -619,9 +581,9 @@ def Parameter_Boolean_create(*args):
 
 def Parameter_Boolean_setValue(*args):
   if args[1]:
-    args[0].setAttribute('value', "True")
+    node_setValue(args[0], "True")
   else:
-    args[0].setAttribute('value', "False")
+    node_setValue(args[0], "False")
 
 def Parameter_Boolean_List_create(*args):
   print("[!] Parameter_Boolean_List_create")
@@ -644,7 +606,8 @@ def Parameter_Buffer_create(*args):
   pass
 
 def Parameter_Buffer_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  tmp = binascii.b2a_hex(args[1])
+  node_setValue(args[0], tmp)
 
 def Parameter_Buffer_List_create(*args):
   print("[!] Parameter_Buffer_List_create")
@@ -667,7 +630,7 @@ def Parameter_IPv4_create(*args):
   pass
 
 def Parameter_IPv4_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], args[1])
 
 def Parameter_IPv4_List_create(*args):
   print("[!] Parameter_IPv4_List_create")
@@ -690,8 +653,8 @@ def Parameter_IPv6_create(*args):
   pass
 
 def Parameter_IPv6_setValue(*args):
-  print("[!] Parameter_IPv6_setValue")
-  pass
+  node_setValue(args[0], args[1])
+
 
 def Parameter_IPv6_List_create(*args):
   print("[!] Parameter_IPv6_List_create")
@@ -714,8 +677,7 @@ def Parameter_LocalFile_create(*args):
   pass
 
 def Parameter_LocalFile_setValue(*args):
-  print("[!] Parameter_LocalFile_setValue")
-  pass
+  node_setValue(args[0], args[1])
 
 def Parameter_LocalFile_List_create(*args):
   print("[!] Parameter_LocalFile_List_create")
@@ -734,7 +696,7 @@ def Parameter_LocalFile_List_setValue(*args):
   pass
 
 def Parameter_Port_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  args[0].setAttribute('value', str(args[1]))
 
 
 def Parameter_Port_List_getSize(*args):
@@ -754,7 +716,7 @@ def Parameter_S8_create(*args):
   pass
 
 def Parameter_S8_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], args[1])
 
 def Parameter_S8_List_create(*args):
   print("[!] Parameter_S8_List_create")
@@ -777,7 +739,7 @@ def Parameter_S16_create(*args):
   pass
 
 def Parameter_S16_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], args[1])
 
 def Parameter_S16_List_create(*args):
   print("[!] Parameter_S16_List_create")
@@ -800,7 +762,7 @@ def Parameter_S32_create(*args):
   pass
 
 def Parameter_S32_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], args[1])
 
 def Parameter_S32_List_create(*args):
   print("[!] Parameter_S32_List_create")
@@ -823,7 +785,7 @@ def Parameter_S64_create(*args):
   pass
 
 def Parameter_S64_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], args[1])
 
 def Parameter_S64_List_create(*args):
   print("[!] Parameter_S64_List_create")

@@ -57,3 +57,5 @@ def setup_lib_paths(fbdir, libdir):
         #args = ['"' + path + '"'] + sys.argv[1:]
         #os.execvpe( 'python', ['python']+sys.argv, os.environ)
  
+
+ISF_LICENSE = ''
