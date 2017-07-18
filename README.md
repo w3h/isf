@@ -18,7 +18,8 @@
 | Schneider_CPU_Comoand                  | 控制施耐德CPU启停                       |
 | Siemens_300_400_CPU_Control            | 控制西门子300和400 CPU启停              |
 | Siemens_1200_CPU_Control               | 控制西门子1200 CPU启停                  |
-
+| Modbus_PLC_Injecter                    | Modbus PLC注入利用工具                  |
+| plcscan                                | Modbus和S7 PLC扫描工具                  |
 
 
 # 三、	EXP编写
