@@ -123,7 +123,7 @@ class FbCmd(cmd.Cmd):
                 context = " "
             else:
                 # add color to context
-                context = (" %s (" % self.getcontext().get_type()) + self.io.color('red') \
+                context = (" %s (" % self.getcontext().get_type()) + self.io.color('red', None, 'bold') \
                           + self.getcontext().get_name() + self.io.color() + ") "
                 #context = PROMPT_FMTSTR % (self.getcontext().get_type(),
                 #                           self.getcontext().get_name())
