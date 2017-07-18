@@ -8,6 +8,8 @@ See the file 'docs/COPYING' for copying permission
 
 import struct
 from scapy.all import *
+from distutils.util import strtobool
+from .exception import OptionValidationError
 
 
 """字符转换用全局变量"""
@@ -151,3 +153,28 @@ def hex_to_address(hex):
     data += '.' + hexToDec(hex[4:6])
     data += '.' + hexToDec(hex[6:8])
     return data
+
+
+def boolify(value):
+    """ Function that will translate common strings into bool values
+
+    True -> "True", "t", "yes", "y", "on", "1"
+    False -> any other string
+
+    Objects other than string will be transformed using built-in bool() function.
+    """
+    if isinstance(value, basestring):
+        try:
+            return bool(strtobool(value))
+        except ValueError:
+            return False
+    else:
+        return bool(value)
+
+
+def integer(number):
+    """ Cast Option value to the integer using int() """
+    try:
+        return int(number)
+    except ValueError:
+        raise OptionValidationError("Invalid option. can't cast '{}' to integer.".format(number))

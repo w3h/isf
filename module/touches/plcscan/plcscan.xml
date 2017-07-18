@@ -8,8 +8,19 @@
           xmlns:t='tc0'>
 
     <t:inputparameters>
-      <t:parameter name="TargetIp" description="The Target is ip address or list or file" type="String"/>
-      <t:parameter name="Ports" description="The Target Ports" type="String" default="102,502"/>
+      <t:parameter name="TargetIp" description="The Target ip address " type="IPv4"/>
+        <t:paramchoice name="PLCType" description="The plc type" default="S7">
+          <t:paramgroup name="S7" description="Scan S7 PLC Devices">
+              <t:parameter name="Port" description="The Target Port" type="U16" default="102"/>
+              <t:parameter name="STsap" description="Try this src-tsap (list) (default: 0x100,0x200)" type="String" default="0x100,0x200"/>
+              <t:parameter name="DTsap" description="Try this dst-tsap (list) (default: 0x102,0x200,0x201)" type="String" default="0x102,0x200,0x201"/>
+          </t:paramgroup>
+          <t:paramgroup name="Modbus" description="Scan Modbus PLC Devices">
+              <t:parameter name="Port" description="The Target Port" type="U16" default="102"/>
+              <t:parameter name="Script"  description="The Target Port" type="String" value="fox-info.nse"  hidden="true"/>
+              <t:parameter name="TargetPort"  description="The default Tridium Niagara Fox Port" type="TcpPort" default="1911"/>
+          </t:paramgroup>
+        </t:paramchoice>
     </t:inputparameters>
 
 </t:config>

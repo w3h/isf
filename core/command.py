@@ -122,9 +122,13 @@ class FbCmd(cmd.Cmd):
             if self.getcontext().get_name() == self.defaultcontext.get_name():
                 context = " "
             else:
-                context = PROMPT_FMTSTR % (self.getcontext().get_type(), 
-                                           self.getcontext().get_name())
+                # add color to context
+                context = (" %s (" % self.getcontext().get_type()) + self.io.color('red') \
+                          + self.getcontext().get_name() + self.io.color() + ") "
+                #context = PROMPT_FMTSTR % (self.getcontext().get_type(),
+                #                           self.getcontext().get_name())
             prompt = self.promptpre + context + PROMPT_POST
+
         self.prompt = prompt
 
     def setcontext(self, new_context):

@@ -200,8 +200,7 @@ class PluginManager(CmdCtx):
                 if self.fb.log:
                     self.fb.log[plugin.name] = self.fb.log.launch_from_command('execute', plugin.getName(), plugin.getConfigVersion()).start()
                 # Generate a new session and execute
-                session = self.session.add_item(plugin.getName(),
-                                                plugin_desc)
+                session = self.session.add_item(plugin.getName(), plugin_desc)
                 newwindow, logfile = plugin.execute(session, 
                                                     consolemode, 
                                                     self.fb.is_interactive(),

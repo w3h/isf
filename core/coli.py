@@ -5,6 +5,7 @@ import logging
 import ctypes
 from optparse import *
 import iohandler
+import socket
 
 
 EDF_CLEANUP_WAIT = 0
@@ -101,8 +102,13 @@ class CommandlineWrapper(object):
                 print "Invalid Params"
                 return 1
 
-            self.TargetIp = self.getParam('TargetIp')
-            self.TargetPort = int(self.getParam('TargetPort'))
+            # get ip and port
+            try:
+                self.TargetPort = 0
+                self.TargetIp = self.getParam('TargetIp')
+                self.TargetPort = str(self.getParam('TargetPort'))
+            except:
+                pass
 
             # XXX Print the invalid options
             if opts.ValidateOnly is True:
@@ -133,6 +139,9 @@ class CommandlineWrapper(object):
 
         except KeyboardInterrupt:
             raise
+        except (socket.error, socket.timeout):
+            retval = -1
+            print("[+] Connection error: %s:%s" % (self.TargetIp, str(self.TargetPort)))
         except Exception as e:
             print("[+] Failed: {0}".format(e))
             raise

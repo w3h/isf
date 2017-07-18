@@ -571,9 +571,7 @@ class IOhandler:
         self.print_table(widths, [("Name", "Set Value", "Redirected Value")], print_params)
 
     def print_set_attributes(self, title, param, attribs):
-        self.print_vheading(("Module: %s" % title,
-                            "Parameter: %s" % param))
-
+        self.print_headingline("Parameter: %s" % param)
         attribs.insert(0, ("Parameter Attribute", "Value"))
         attribs.insert(1, ("-------------------", "-----"))
         widths = self.get_column_max_width(attribs)

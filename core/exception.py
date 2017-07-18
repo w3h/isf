@@ -80,3 +80,7 @@ def exceptionwrapped(fn):
             return None
     wrap.__doc__ = fn.__doc__
     return wrap
+
+
+class OptionValidationError(Exception):
+    pass

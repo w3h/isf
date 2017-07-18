@@ -27,10 +27,13 @@ class MyScript(BaseExploit):
     def exploit(self, *args, **kwargs):
         nm = nmap.PortScanner()
         scriptname = self.getParam("Script")
-        ments = "-p %s --script=%s" % (str(self.TargetPort), scriptname)
+        p = os.path.realpath(__file__)
+        p = os.path.dirname(p)
+        p = os.path.join(p, scriptname)
+        p = p.replace('\\', "/")
+        ments = "-p %s --script=%s" % (str(self.TargetPort), p)
         ret = nm.scan(self.TargetIp, arguments=ments)
-        ret = nm.csv()
-        print ret
+        UniPrinter().pprint(ret['scan'])
         return ret
 
 MainEntry(MyScript, __name__)

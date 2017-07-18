@@ -95,8 +95,8 @@ def scan(argv):
 
     status("Scan complete\n")
 
-def scan_new(hosts_file, args, ports):
-    options = {}
+
+def scan_new(hosts_file, ip, port, options):
     scan_hosts = []
     if hosts_file:
         try:
@@ -104,10 +104,9 @@ def scan_new(hosts_file, args, ports):
         except IOError:
             print "Can't open file %s" % hosts_file
     else:
-        scan_hosts.extend(IP(args))
+        scan_hosts.extend(IP(ip))
 
-    print scan_hosts
-    scan_ports = [int(port) for port in ports.split(',')]
+    scan_ports = [int(port), ]
     if not scan_hosts:
         print "No targets to scan\n\n"
         exit()
@@ -143,6 +142,7 @@ def scan_new(hosts_file, args, ports):
 
 
     status("Scan complete\n")
+
 
 if __name__=="__main__":
     try:

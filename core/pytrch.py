@@ -381,10 +381,8 @@ def Paramchoice_hasValidValue(*args):
     tmp = get_elements(args[0], 'value')
     if len(tmp) == 0:
       return False
-    v = tmp[0].toxml()
-    v = v.replace("<value>", "")
-    v = v.replace("</value>", "")
-    v = v.replace("<value/>", " ")
+
+    v = getText(tmp[0])
 
   for rt in get_elements(args[0], 'paramgroup'):
     tmp = rt.getAttribute('name')
@@ -421,7 +419,7 @@ def Paramchoice_matchName(*args):
   pass
 
 def Paramchoice_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_delete(*args):
   print("[!] Parameter_delete")
@@ -696,8 +694,7 @@ def Parameter_LocalFile_List_setValue(*args):
   pass
 
 def Parameter_Port_setValue(*args):
-  args[0].setAttribute('value', str(args[1]))
-
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_Port_List_getSize(*args):
   print("[!] Parameter_Port_List_getSize")
@@ -808,7 +805,7 @@ def Parameter_Socket_create(*args):
   pass
 
 def Parameter_Socket_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_Socket_List_create(*args):
   print("[!] Parameter_Socket_List_create")
@@ -831,7 +828,7 @@ def Parameter_String_create(*args):
   pass
 
 def Parameter_String_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_String_List_create(*args):
   print("[!] Parameter_String_List_create")
@@ -862,7 +859,7 @@ def Parameter_U8_create(*args):
   pass
 
 def Parameter_U8_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_U8_List_create(*args):
   print("[!] Parameter_U8_List_create")
@@ -885,7 +882,7 @@ def Parameter_U16_create(*args):
   pass
 
 def Parameter_U16_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_U16_List_create(*args):
   print("[!] Parameter_U16_List_create")
@@ -908,7 +905,7 @@ def Parameter_U32_create(*args):
   pass
 
 def Parameter_U32_setValue(*args):
-  args[0].setAttribute('value', args[1])
+  node_setValue(args[0], str(args[1]))
 
 def Parameter_U32_List_create(*args):
   print("[!] Parameter_U32_List_create")
