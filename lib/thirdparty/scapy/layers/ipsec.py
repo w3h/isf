@@ -54,6 +54,10 @@ from scapy.layers.inet import IP, UDP
 from scapy.layers.inet6 import IPv6, IPv6ExtHdrHopByHop, IPv6ExtHdrDestOpt, \
     IPv6ExtHdrRouting
 
+if not hasattr(socket, "IPPROTO_ESP"):
+    socket.IPPROTO_ESP = 50
+if not hasattr(socket, "IPPROTO_AH"):
+    socket.IPPROTO_AH = 51
 
 #------------------------------------------------------------------------------
 class AH(Packet):

@@ -135,6 +135,9 @@ class PluginManager(CmdCtx):
     Main plugin routines
 
     """
+    def complete_run(self, text, line, arglist, state, begidx, endidx):
+        return self.complete_run(text, line, arglist, state, begidx, endidx)
+
     def complete_execute(self, text, line, arglist, state, begidx, endidx):
         cmap = dict([(val,key) for key,val in util.consolemode_map.items()])
         clist = [cmap[util.CONSOLE_REUSE], cmap[util.CONSOLE_NEW]]
@@ -144,6 +147,17 @@ class PluginManager(CmdCtx):
                     for item in sorted(clist)
                     if item.lower().startswith(text.lower())]
         return [""]
+
+    def help_run(self):
+        usage = ["run [mode]",
+                 "Executes the current plugin. Mode specifies to",
+                 "open a new window or reuse the current console.",
+                 "Plugin default will be used if mode is not specified",
+                 "Modes:",
+                 "  new      Run plugin in a new window",
+                 "  reuse    Reuse the current window",
+                 "  default  Use the plugin default"]
+        self.io.print_usage(usage)
 
     def help_execute(self):
         usage = ["execute [mode]",
@@ -161,6 +175,10 @@ class PluginManager(CmdCtx):
                 'session' : self.fb.redirection.get_session(redirid),
                 'vars'    : plugin.getParameters(hidden=True)}
         self.io.print_exe_set_names(args)
+
+    def do_run(self, input):
+        """Run the current plugin"""
+        self.do_execute(input)
 
     def do_execute(self, input):
         """Execute the current plugin"""

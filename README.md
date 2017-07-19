@@ -15,7 +15,7 @@
 
 | Name                                   | Desc                                    |
 | ---------------------------------------|:---------------------------------------:|
-| Schneider_CPU_Comoand                  | 控制施耐德CPU启停                       |
+| Schneider_CPU_Comannd                  | 控制施耐德CPU启停                       |
 | Siemens_300_400_CPU_Control            | 控制西门子300和400 CPU启停              |
 | Siemens_1200_CPU_Control               | 控制西门子1200 CPU启停                  |
 | Modbus_PLC_Injecter                    | Modbus PLC注入利用工具                  |
@@ -24,4 +24,4 @@
 
 # 三、	EXP编写
 
-参见  docs/USAGE.md 
+参见  [docs/USAGE.md](https://github.com/w3h/isf/blob/master/docs/USAGE.md) 

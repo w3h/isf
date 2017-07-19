@@ -21,6 +21,9 @@ class CmdErr(Exception):
     def getErr(self):
         return "%s %s" % (self.prefix, self.error)
 
+    def __str__(self):
+        return self.getErr()
+
 class PromptErr(CmdErr):
     """PromptErr covers prompt error conditions."""
     def __init__(self, error):

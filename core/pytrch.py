@@ -6,6 +6,7 @@ import xml.parsers.expat as expat
 import exception
 import re
 import binascii
+import sys,os
 
 
 def getTagText(root, tag):
@@ -515,6 +516,9 @@ def Parameter_hasValidValue(*args):
       return False
   elif t == 'BUFFER':
     pass
+  elif t == 'LOCALFILE':
+    if not os.path.isfile(v):
+      return False
   else:
     print "++++++++++++++++++++++++++ Invalid Type ++++++++++++++++++++++++++ ->",t
 

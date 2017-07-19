@@ -11,17 +11,16 @@
       <t:parameter name="TargetIp" description="The Target ip address " type="IPv4"/>
         <t:parameter name="TargetPort" description="The Target Port" type="U16" default="502"/>
         <t:paramchoice name="Function" description="The function type"  default="DownloadFun" >
-          <t:paramgroup name="UploadFun" description="payload to upload to the PLC">
-              <t:parameter name="upload" description="The upload bin file" type="LocalFile" />
-              <t:parameter name="addr" description="The start address" type="U16" default="0"/>
-          </t:paramgroup>
           <t:paramgroup name="DownloadFun" description="download n bytes from the PLC" >
-              <t:parameter name="download" description="The number of download byte" type="U16" default="16"/>
-              <t:parameter name="addr" description="The start address" type="U16" default="0"/>
+              <t:parameter name="DownloadBytes" description="The byte number of download " type="U16" default="16"/>
+              <t:parameter name="StartAddr" description="The start address" type="U16" default="0"/>
+          </t:paramgroup>
+          <t:paramgroup name="UploadFun" description="payload to upload to the PLC">
+              <t:parameter name="Upload" description="The upload bin file" type="LocalFile" />
+              <t:parameter name="StartAddr" description="The start address" type="U16" default="0"/>
           </t:paramgroup>
           <t:paramgroup name="SizeFun" description="check if the PLC can allocate n bytes in its holding registers" >
-              <t:parameter name="size" description="The size of plc memory" type="String" default="" hidden="true"/>
-              <t:parameter name="addr" description="The start address" type="U16" default="0"/>
+              <t:parameter name="Size" description="The size of plc memory" type="U16" default="64"/>
           </t:paramgroup>
         </t:paramchoice>
     </t:inputparameters>

@@ -123,7 +123,7 @@ class FbCmd(cmd.Cmd):
                 context = " "
             else:
                 # add color to context
-                context = (" %s (" % self.getcontext().get_type()) + self.io.color('red', None, 'bold') \
+                context = (" %s (" % self.getcontext().get_type()) + self.io.color('green', None, 'bold') \
                           + self.getcontext().get_name() + self.io.color() + ") "
                 #context = PROMPT_FMTSTR % (self.getcontext().get_type(),
                 #                           self.getcontext().get_name())
@@ -343,7 +343,7 @@ class FbCmd(cmd.Cmd):
 
         try:
             return self.completion_matches[state]
-        except IndexError:
+        except:
             return None
 
     #def get_names(self):
@@ -503,6 +503,7 @@ class FbCmd(cmd.Cmd):
         usage = ["quit",
                  "Quits program (CTRL-D)"]
         self.io.print_usage(usage)
+
     def do_quit(self, arg):
         """Quit program"""
         return True
