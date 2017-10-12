@@ -10,8 +10,7 @@ import traceback
 
 MAX_PARAM_ECHO_LEN = 60
 
-EDF_PLUGIN_INFO = """
-    Name: %s
+EDF_PLUGIN_INFO = """    Name: %s
  Version: %s
   Author: %s
     Type: %s

@@ -27,6 +27,7 @@ class MyScript(BaseExploit):
                     default="0x100,0x200", metavar="LIST"),
         mkopt("--DTsap", help="Try this dst-tsap (list) (default: 0x102,0x200,0x201)", type="string",
                     default="0x102,0x200,0x201", metavar="LIST"),
+        mkopt("--PLCType", help="The type of plc", type="string", default="s7"),
     ]
 
     def exploit(self, *args, **kwargs):

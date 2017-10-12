@@ -337,6 +337,24 @@ def SendArpSpoofing(src_ip, src_mac, dst_ip, dst_mac, my_iface, my_verbose):
     arp.hwsrc = src_mac
     send(arp, iface=my_iface, verbose=my_verbose)
 
+
+def getMac(ip, iface):
+    ans,unans=srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ip),timeout=2, iface=iface)
+    for s,r in ans:
+        return r[Ether].src
+
+def Check_Port_Alive(target, port):
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        sock.connect((target, port))
+        sock.close()
+    except Exception:
+        return False
+
+    return True
+
+
 def make_option_rport(p):
     r = make_option('-p', '--TargetPort', action='store', dest='TargetPort',
                     type='int', default=int(p),

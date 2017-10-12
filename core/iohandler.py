@@ -10,7 +10,10 @@ MAX_PROMPT_ECHO_LEN = 50
 
 try:
     try:
-        import readline
+        if sys.platform == 'win32' or sys.platform == 'win64':
+            import readline
+        else:
+            import gnureadline as readline
     except ImportError:
         import pyreadline as readline
     HAVE_READLINE = True
@@ -28,9 +31,9 @@ Valid Attributes : none,      bold,
                    fast,      reverse,
                    concealed
 
-Valid Colors : grey     red 
-               green    yellow 
-               blue     magenta 
+Valid Colors : grey     red
+               green    yellow
+               blue     magenta
                cyan     white
 """
 COLORIZEMAP = {"[-]" : {"fg" : "red",     "attr" : "bold"},
@@ -59,8 +62,8 @@ def truncate(string, length=MAX_PROMPT_ECHO_LEN):
 class IOhandler:
     """Handle I/O for fuzzbunch commands"""
 
-    def __init__(self, stdin=None, 
-                       stdout=None, 
+    def __init__(self, stdin=None,
+                       stdout=None,
                        use_raw=1,
                        noprompt=False,
                        completekey='tab',
@@ -71,7 +74,7 @@ class IOhandler:
 
         @param  stdin
         @param  stdout
-        @param  use_raw         
+        @param  use_raw
         @param  noprompt        Do we want to prompt for values upon plugin execution?
         @param  completekey     Command completion
         """
@@ -122,7 +125,7 @@ class IOhandler:
                 import atexit
                 self.old_completer = readline.get_completer()
                 # Fix Bug #3129: Limit the history size to consume less memory
-                readline.set_history_length(self.historysize)   
+                readline.set_history_length(self.historysize)
                 readline.set_completer(completefn)
                 readline.parse_and_bind(self.completekey+": complete")
                 try:
@@ -180,7 +183,7 @@ class IOhandler:
             else:
                 line = line[:-1]
         return line
-       
+
     def prompt_user(self, msg, default=None, params=None, gvars=None):
         if self.noprompt:
             return variable_replace(default, gvars)     # Fix a small bug in 3.2.0
@@ -398,7 +401,7 @@ class IOhandler:
 
         return "\033[" + ";".join(cmd) + "m"
 
-                
+
     """
     Specialized output routines
 
@@ -585,7 +588,7 @@ class IOhandler:
         widths = self.get_column_max_width(choices)
         fmt = "  %%-%ds %%s" % (widths[0] + 4)
         self.vprint(fmt, choices)
-        
+
 
     def print_sorted_vals(self, sorted_vals, vals):
         i = 0
@@ -604,7 +607,7 @@ class IOhandler:
         return i,default
 
     def print_param_list(self, param_list):
-        self.write("")
+        #self.write("")
         widths = self.get_column_max_width(param_list)
         widths[0] = max(widths[0], len('Name'))
         widths[1] = max(widths[1], len('Value'))
@@ -624,7 +627,7 @@ class IOhandler:
             hdrlist.append(("-----", "----", "-----------"))
 
             widths = self.get_column_max_width(touchlist)
-        
+
             fmt = "%%7s  %%-%ds %%s" % (widths[0] + 4)
             self.vprint(fmt, hdrlist)
 
@@ -635,7 +638,7 @@ class IOhandler:
 
     """
     Apply command
-    
+
     """
     def print_apply_prompt_list(self, args):
         if args['default']:
@@ -688,7 +691,7 @@ class IOhandler:
             widths = self.get_column_max_width(args['attribs'])
             choice_fmt = "   %%s%%d) %%-%ds %%s" % (widths[0] + 4)
             for i,(attr,val) in enumerate(args['attribs']):
-                if default and i == int(default): 
+                if default and i == int(default):
                     markdef = "*"
                 else:
                     markdef = " "
@@ -785,7 +788,7 @@ class IOhandler:
 
         for tunnel in tunnels:
             data.append((tunnel.protocol,
-                         tunnel.destaddr + ":" + tunnel.destport, 
+                         tunnel.destaddr + ":" + tunnel.destport,
                          tunnel.listenaddr + ":" + tunnel.listenport,
                          "TARGET"))
 
@@ -863,5 +866,3 @@ class IOhandler:
 
     """
         self.write(standardop)
-
-

@@ -11,14 +11,30 @@
       <t:parameter name="TargetIp" description="The Target is ip address or list" type="String"/>
 
       <t:paramchoice name="Script" description="The nmap script file" default="s7-enumerate.nse" >
-          <t:paramgroup name="s7-enumerate.nse" description="Enumerates Siemens S7 PLC Devices">
-              <t:parameter name="TargetPort"  description="The default S7 PLC Port" type="TcpPort" default="102"/>
+          <t:paramgroup name="s7-enumerate.nse" description="Enumerates Information of Siemens S7 PLC ">
+              <t:parameter name="TargetPort"  description="The default Port of plc" type="TcpPort" default="102"/>
           </t:paramgroup>
-          <t:paramgroup name="fox-info.nse" description="Enumerates Tridium Niagara Fox Information">
-              <t:parameter name="TargetPort"  description="The default Tridium Niagara Fox Port" type="TcpPort" default="1911"/>
+          <t:paramgroup name="fox-info.nse" description="Enumerates Information of Tridium Niagara Fox">
+              <t:parameter name="TargetPort"  description="The default Port of Tridium Niagara Fox " type="TcpPort" default="1911"/>
           </t:paramgroup>
-          <t:paramgroup name="modicon-info.nse" description="Enumerates Schneider Electric PLC Information">
-              <t:parameter name="TargetPort"  description="The default PLC Port" type="TcpPort" default="502"/>
+          <t:paramgroup name="modicon-info.nse" description="Enumerates Information of Schneider Electric PLC">
+              <t:parameter name="TargetPort"  description="The default Port of plc" type="TcpPort" default="502"/>
+          </t:paramgroup>
+          <t:paramgroup name="dnp3-info.nse" description="Enumerates Information of dnp3">
+              <t:parameter name="TargetPort"  description="The default Port of dnp3" type="TcpPort" default="20000"/>
+          </t:paramgroup>
+          <t:paramgroup name="pcworx-info.nse" description="Enumerates Information of Phoenix PLC">
+              <t:parameter name="TargetPort"  description="The default Port of plc" type="TcpPort" default="1962"/>
+          </t:paramgroup>
+          <t:paramgroup name="proconos-info.nse" description="Enumerates Information of ProConOs PLC">
+              <t:parameter name="TargetPort"  description="The default Port of plc" type="TcpPort" default="20547"/>
+          </t:paramgroup>
+          <t:paramgroup name="enip-enumerate.nse" description="Enumerates Information of AB">
+              <t:parameter name="TargetPort"  description="The default Port of AB" type="TcpPort" default="44818"/>
+              <t:parameter name="HPARA"  description="The other parameters" type="String" default=" -sU " hidden="true"/>
+          </t:paramgroup>
+          <t:paramgroup name="moxa-enum.nse" description="Enumerates Information of moxa">
+              <t:parameter name="TargetPort"  description="The default Port of moxa" type="TcpPort" default="4800"/>
           </t:paramgroup>
       </t:paramchoice>
 

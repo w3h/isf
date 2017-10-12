@@ -85,5 +85,5 @@ def exceptionwrapped(fn):
     return wrap
 
 
-class OptionValidationError(Exception):
+class OptionValidationError(CmdErr):
     pass

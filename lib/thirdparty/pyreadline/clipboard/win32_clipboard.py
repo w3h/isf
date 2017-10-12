@@ -33,23 +33,28 @@
 ###################################################################################
 from __future__ import print_function, unicode_literals, absolute_import
 
+import ctypes
+import ctypes.wintypes as wintypes
 from ctypes import *
 from pyreadline.keysyms.winconstants import CF_UNICODETEXT, GHND
 from pyreadline.unicode_helper import ensure_unicode,ensure_str
 
 OpenClipboard = windll.user32.OpenClipboard
-OpenClipboard.argtypes = [c_int]
+OpenClipboard.argtypes = [wintypes.HWND]
+OpenClipboard.restype = wintypes.BOOL
 
 EmptyClipboard = windll.user32.EmptyClipboard
 
 GetClipboardData = windll.user32.GetClipboardData
-GetClipboardData.argtypes = [c_int]
+GetClipboardData.argtypes = [wintypes.UINT]
+GetClipboardData.restype = wintypes.HANDLE
 
 GetClipboardFormatName = windll.user32.GetClipboardFormatNameA
-GetClipboardFormatName.argtypes = [c_uint,c_char_p,c_int]
+GetClipboardFormatName.argtypes = [wintypes.UINT, c_char_p, c_int]
 
 SetClipboardData = windll.user32.SetClipboardData
-SetClipboardData.argtypes = [c_int,c_int]
+SetClipboardData.argtypes = [wintypes.UINT, wintypes.HANDLE]
+SetClipboardData.restype = wintypes.HANDLE
 
 EnumClipboardFormats = windll.user32.EnumClipboardFormats
 EnumClipboardFormats.argtypes = [c_int]
@@ -59,11 +64,18 @@ CloseClipboard.argtypes = []
 
 
 GlobalAlloc = windll.kernel32.GlobalAlloc
+GlobalAlloc.argtypes = [wintypes.UINT, c_size_t]
+GlobalAlloc.restype = wintypes.HGLOBAL
 GlobalLock = windll.kernel32.GlobalLock
-GlobalLock.argtypes = [c_int]
+GlobalLock.argtypes = [wintypes.HGLOBAL]
+GlobalLock.restype = c_void_p
 GlobalUnlock = windll.kernel32.GlobalUnlock
 GlobalUnlock.argtypes = [c_int]
-memcpy = cdll.msvcrt.memcpy
+
+_strncpy = ctypes.windll.kernel32.lstrcpynW
+_strncpy.restype = c_wchar_p
+_strncpy.argtypes = [c_wchar_p, c_wchar_p, c_size_t]
+
 
 def enum():
     OpenClipboard(0)
@@ -85,23 +97,24 @@ def GetClipboardText():
     if OpenClipboard(0):
         hClipMem = GetClipboardData(CF_UNICODETEXT)
         if hClipMem:        
-            GlobalLock.restype = c_wchar_p
-            text = GlobalLock(hClipMem)
+            text = wstring_at(GlobalLock(hClipMem))
             GlobalUnlock(hClipMem)
         CloseClipboard()
-    return ensure_unicode(text)
+    return text
 
 def SetClipboardText(text):
     buffer = create_unicode_buffer(ensure_unicode(text))
     bufferSize = sizeof(buffer)
-    hGlobalMem = GlobalAlloc(c_int(GHND), c_int(bufferSize))
+    hGlobalMem = GlobalAlloc(GHND, c_size_t(bufferSize))
     GlobalLock.restype = c_void_p
-    lpGlobalMem = GlobalLock(c_int(hGlobalMem))
-    memcpy(lpGlobalMem, addressof(buffer), c_int(bufferSize))
+    lpGlobalMem = GlobalLock(hGlobalMem)
+    _strncpy(cast(lpGlobalMem, c_wchar_p),
+             cast(addressof(buffer), c_wchar_p),
+             c_size_t(bufferSize))
     GlobalUnlock(c_int(hGlobalMem))
     if OpenClipboard(0):
         EmptyClipboard()
-        SetClipboardData(c_int(CF_UNICODETEXT), c_int(hGlobalMem))
+        SetClipboardData(CF_UNICODETEXT, hGlobalMem)
         CloseClipboard()
 
 if __name__ == '__main__':

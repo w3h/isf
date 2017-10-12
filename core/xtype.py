@@ -155,6 +155,21 @@ def hex_to_address(hex):
     return data
 
 
+def mac_to_hex(address, sp=':'):
+    """用于将IP地址转化为16进制字符串。
+
+    Args：
+        address：需要转换的IP地址
+    """
+    num = address.split(sp)
+    if not len(num) == 6:
+        return False
+    # Check each of the 4 numbers is between 0 and 255
+    data = ''
+    for n in num:
+        data += struct.pack("!B", int(n)).encode('hex')
+    return data
+
 def boolify(value):
     """ Function that will translate common strings into bool values
 

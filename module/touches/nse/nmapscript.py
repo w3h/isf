@@ -22,6 +22,8 @@ class MyScript(BaseExploit):
                     default="", help='The Target Port'),
         mkopt('--Script', action='store', dest='Script', type='string',
                     default="", help='The Namp Script Name'),
+        mkopt('--HPARA', action='store', dest='HPARA', type='string',
+              default="", help='The hide parameter'),
     ]
 
     def exploit(self, *args, **kwargs):
@@ -33,7 +35,10 @@ class MyScript(BaseExploit):
         p = p.replace('\\', "/")
         ments = "-p %s --script=%s" % (str(self.TargetPort), p)
         ret = nm.scan(self.TargetIp, arguments=ments)
-        UniPrinter().pprint(ret['scan'])
-        return ret
+        if not ret:
+            return ret
+
+        UniPrinter().pprint(ret['scan'][self.TargetIp])
+        return ret['scan'][self.TargetIp]
 
 MainEntry(MyScript, __name__)

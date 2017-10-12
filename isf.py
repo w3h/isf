@@ -37,8 +37,8 @@ def make_env_path():
     p = util.get_sitepackages_path()
     f = open(os.path.join(p, "isf.pth"), "wb+")
     info = ISF_DIR + "\n"
-    info += ISF_DIR + "\\lib\\protocols" + "\n"
-    info += ISF_DIR + "\\lib\\thirdparty" + "\n"
+    info += ISF_DIR + "/lib/protocols" + "\n"
+    info += ISF_DIR + "/lib/thirdparty" + "\n"
     f.write(info)
     f.close()
 

@@ -217,14 +217,22 @@ class Console(object):
         self.softspace = 0 # this is for using it as a file-like object
         self.serial = 0
 
-        self.pythondll = \
-            CDLL('python%s%s' % (sys.version[0], sys.version[2]))
-        self.pythondll.PyMem_Malloc.restype = c_size_t
-        self.pythondll.PyMem_Malloc.argtypes = [c_size_t]
+        self.pythondll = ctypes.pythonapi
         self.inputHookPtr = \
             c_void_p.from_address(addressof(self.pythondll.PyOS_InputHook)).value
-        setattr(Console, 'PyMem_Malloc', self.pythondll.PyMem_Malloc)
 
+        if sys.version_info[:2] > (3, 4): 
+            self.pythondll.PyMem_RawMalloc.restype = c_size_t
+            self.pythondll.PyMem_Malloc.argtypes = [c_size_t]
+            setattr(Console, 'PyMem_Malloc', self.pythondll.PyMem_RawMalloc)
+        else:
+            self.pythondll.PyMem_Malloc.restype = c_size_t
+            self.pythondll.PyMem_Malloc.argtypes = [c_size_t]
+            setattr(Console, 'PyMem_Malloc', self.pythondll.PyMem_Malloc)
+
+
+
+        
     def __del__(self):
         '''Cleanup the console when finished.'''
         # I don't think this ever gets called
@@ -604,18 +612,11 @@ class Console(object):
 for func in funcs:
     setattr(Console, func, getattr(windll.kernel32, func))
 
-if sys.version_info[:2] < (2, 6):
-    msvcrt = cdll.msvcrt
-else:
-    msvcrt = cdll.LoadLibrary(ctypes.util.find_msvcrt())
 
-_strncpy = msvcrt.strncpy
-if sys.version [:1] == 2:  #Bad fix for crash on python3
-    _strncpy.restype = c_char_p
-    _strncpy.argtypes = [c_char_p, c_char_p, c_size_t]
-_strdup = msvcrt._strdup
-_strdup.restype = c_char_p
-_strdup.argtypes = [c_char_p]
+_strncpy = ctypes.windll.kernel32.lstrcpynA
+_strncpy.restype = c_char_p
+_strncpy.argtypes = [c_char_p, c_char_p, c_size_t]
+
 
 LPVOID = c_void_p
 LPCVOID = c_void_p
@@ -774,11 +775,11 @@ def hook_wrapper_23(stdin, stdout, prompt):
         return 0
     except EOFError:
         # It returns an empty string on EOF
-        res = ''
+        res = ensure_str('')
     except:
         print('Readline internal error', file=sys.stderr)
         traceback.print_exc()
-        res = '\n'
+        res = ensure_str('\n')
     # we have to make a copy because the caller expects to free the result
     n = len(res)
     p = Console.PyMem_Malloc(n + 1)

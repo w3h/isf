@@ -7,7 +7,15 @@
 #  the file COPYING, distributed as part of this software.
 #*****************************************************************************
 from __future__ import print_function, unicode_literals, absolute_import
+from platform import system
 
-from . import unicode_helper, logger, clipboard, lineeditor, modes, console
-from .rlmain import *
+_S = system()
+if 'windows' != _S.lower():
+    raise RuntimeError('pyreadline is for Windows only, not {}.'.format(_S))
+del system, _S
+
+from . import unicode_helper
+from . import logger, clipboard, lineeditor, modes, console
+from . rlmain import *
+
 from . import rlmain

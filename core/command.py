@@ -6,11 +6,21 @@ module 'cmd'.  Many methods overridden to support more FB like behavior.
 import string
 import subprocess
 import time
+import sys
 
 from context   import CmdCtx
 import exception
 import iohandler
 import cmd
+
+try:
+    if sys.platform == 'win32' or sys.platform == 'win64':
+        import readline
+    else:
+        import gnureadline as readline
+except ImportError:
+    import pyreadline as readline
+
 
 __all__ = ["FbCmd"]
 
@@ -57,12 +67,12 @@ class FbCmd(cmd.Cmd):
 
         self.promptpre   = PROMPT_PRE
         self.completekey = 'tab'
-        self.cmdqueue    = []       # Holds a list of commands yet to be executed 
+        self.cmdqueue    = []       # Holds a list of commands yet to be executed
         self.cmdhistory  = []       # Holds a list of commands already executed
 
         self.setcontext(None)       # Set us to the default context
         self.setprompt()
-        
+
     """
     I/O Handling
 
@@ -110,8 +120,8 @@ class FbCmd(cmd.Cmd):
 
     """
     Context handling
-    
-    Added to enable us to change the prompt easily among different plug-in or 
+
+    Added to enable us to change the prompt easily among different plug-in or
     base contexts.
     """
     def setprompt(self, prompt=None):
@@ -162,7 +172,7 @@ class FbCmd(cmd.Cmd):
 
     """
     Command parsing and handling
-    
+
     """
     def cmdloop(self):
         """Repeatedly issue a prompt, accept input, parse an initial prefix
@@ -214,16 +224,16 @@ class FbCmd(cmd.Cmd):
     def register_shortcut(self, shortcutChar, expansion):
         """Register a new shortcut key expansion.  If a shortcut key is reused
         the old command will be deleted.
-        
+
         """
         if shortcutChar in self.shortcutKeys:
             del self.shortcutKeys[shortcutChar]
-        self.shortcutKeys[shortcutChar] = expansion 
+        self.shortcutKeys[shortcutChar] = expansion
 
     def precmd(self, line):
         """Executed before each command. Append the line to history and then log
         the line to the output.
-        
+
         """
         if len(line.strip()):
             self.cmdhistory.append(line)
@@ -249,7 +259,7 @@ class FbCmd(cmd.Cmd):
         line = line.strip()
         if not line:
             return None, None, line
-        
+
         if line[-1:] in self.helpKeys:
             line = self.helpKeys[line[-1:]] + " " + line[:-1]
 
@@ -274,13 +284,13 @@ class FbCmd(cmd.Cmd):
             return self.default(line)
         else:
             try:
-                # retrieve the command execution function, which will be 
+                # retrieve the command execution function, which will be
                 # self.do_<command>
                 func = getattr(self, 'do_' + cmd.lower())
             except AttributeError:
                 return self.default(line)
             return func(arg)
-            
+
     def emptyline(self):
         """Called when an empty line is encountered"""
         pass
@@ -297,7 +307,7 @@ class FbCmd(cmd.Cmd):
         else:
             func(arg)
 
-    
+
     #def completedefault(self, *ignored):
     #    return []
 
@@ -316,10 +326,6 @@ class FbCmd(cmd.Cmd):
     def complete(self, text, state):
         """Return the next possible completion for 'text'."""
         if state == 0:
-            try:
-                import readline
-            except ImportError:
-                import pyreadline as readline
             origline = readline.get_line_buffer()
             begidx = readline.get_begidx()
             endidx = readline.get_endidx()
@@ -446,7 +452,7 @@ class FbCmd(cmd.Cmd):
             count = int(count)
         except ValueError:
             self.io.print_error("Invalid delay")
-            return 
+            return
         self.io.print_msg("Sleeping for %d seconds" % count)
         try:
             time.sleep(count)
@@ -541,7 +547,7 @@ class FbCmd(cmd.Cmd):
             try:
                 self.scripting(True)
                 try:
-                    script = [ line.strip() 
+                    script = [ line.strip()
                                for line in open(inputList[0]).readlines()
                                if not line.startswith('#') ]
                 except IOError:
@@ -557,5 +563,3 @@ class FbCmd(cmd.Cmd):
 if __name__ == "__main__":
     fb = FbCmd()
     fb.cmdloop()
-
-

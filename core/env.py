@@ -12,7 +12,8 @@ SUPPORTED_ARCH = {
     'win32':            'x86-Windows',
     'linux2-i686':      'i686-Linux',
     'linux2-x86_64':    'x86_64-Linux',
-    'solaris':          'sparc-SunOS'
+    'solaris':          'sparc-SunOS',
+    'darwin':           ''
 }
 
 try:
@@ -42,8 +43,8 @@ def setup_core_paths( fbdir ):
     return (FB_FILE, FB_DIR, EDFLIB_DIR)
 
 def setup_lib_paths(fbdir, libdir):
-    """This is a little bit of a hack, but it should work. If we detect that the EDFLIB_DIR is 
-    not in LD_LIBRARY_PATH, restart after adding it.  
+    """This is a little bit of a hack, but it should work. If we detect that the EDFLIB_DIR is
+    not in LD_LIBRARY_PATH, restart after adding it.
     """
     try:
         libpath = os.environ['LD_LIBRARY_PATH']
@@ -56,6 +57,6 @@ def setup_lib_paths(fbdir, libdir):
         #path = os.path.abspath(fbdir)
         #args = ['"' + path + '"'] + sys.argv[1:]
         #os.execvpe( 'python', ['python']+sys.argv, os.environ)
- 
+
 
 ISF_LICENSE = ''
