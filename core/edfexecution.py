@@ -199,7 +199,7 @@ else:
         else:
             cmdLine = []
             if binName.endswith(".py"):
-                cmdLine.append("/usr/bin/python2.6")
+                cmdLine.append("/usr/bin/python2.7")
             cmdLine.append("\"%s\"" % binName)
             cmdLine.append("--InConfig \"%s\"" % inName)        # Contains the input parameters
             cmdLine.append("--OutConfig \"%s\"" % pipeName)
@@ -214,7 +214,7 @@ else:
     def validate_plugin(binName, inName, io):
         cmdLine = []
         if binName.endswith(".py"):
-            cmdLine.append("/usr/bin/python2.6")
+            cmdLine.append("/usr/bin/python2.7")
         cmdLine.append("\"%s\"" % binName)
         cmdLine.append("--InConfig \"%s\"" % inName)
         cmdLine.append("--ValidateOnly true")
