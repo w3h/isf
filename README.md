@@ -219,6 +219,6 @@ Execute the module:
 
 ## Installation on Windows
 
-    * install pywin32 (./dependencies/pywin32-221.win32-py2.7.exe)
-    * download isf (https://github.com/w3h/isf)
-    * start (python isf.py)
+* install pywin32 (./dependencies/pywin32-221.win32-py2.7.exe)
+* download isf (https://github.com/w3h/isf)
+* start (python isf.py)
