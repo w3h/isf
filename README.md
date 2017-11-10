@@ -182,3 +182,43 @@ Execute the module:
 # 五、POC
 
 [docs/USAGE.md](./docs/USAGE.md) 
+
+
+# 六、Installation
+
+## Requirements
+
+* gnureadline (OSX only)
+* pywin32 (Windows only)
+
+
+
+## Installation on OSX
+
+	git clone https://github.com/w3h/isf
+	cd isf
+	sudo easy_install pip
+	sudo pip install -r requirements.txt
+	./isf.py
+
+## Installation on Ubuntu 16.04
+
+	sudo apt-get install python-dev python-pip libncurses5-dev git
+	git clone https://github.com/w3h/isf
+	cd isf
+	sudo pip install -r requirements.txt
+	./isf.py
+
+## Installation on Centos 7
+
+	sudo yum install python-devel python2-pip ncurses-devel git
+	git clone https://github.com/w3h/isf
+    cd isf
+	pip install -r requirements.txt
+	./isf.py
+
+## Installation on Windows
+
+    * install pywin32 (./dependencies/pywin32-221.win32-py2.7.exe)
+    * download isf (https://github.com/w3h/isf)
+    * start (python isf.py)
