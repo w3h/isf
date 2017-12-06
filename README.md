@@ -24,8 +24,8 @@ Read this in other languages: [English](./README.md), [简体中文](./README-ZH
 | Siemens_1200_CPU_Control               | Control Siemens PLC-1200 CPU start or stop                                      |
 | Modbus_PLC_Injecter                    | Modbus PLC injecter tools                                                       |
 | plcscan                                | Modbus and S7 PLC scanner tools                                                 |
-
-
+| lantronix_telnet_password              | Recover lantronix telnet password                                               |
+ 
 # 四、Usage
 
 
