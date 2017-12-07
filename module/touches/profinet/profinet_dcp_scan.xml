@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<t:config id="484fa27560c34d4655ee4c36e4cd2857"
+          name="profinet_dcp_scan"
+          version="1.1.0"
+          configversion="1.1.0.0"
+          author="w3h"
+          xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+          xmlns:t='tc0'>
+
+    <t:inputparameters>
+        <t:parameter name="Interface" description="Interface Name" type="String" default="eth0"/>
+        <t:parameter name="NetworkTimeout"
+                     description="Timeout for blocking network calls (in seconds).  Use -1 for no timeout."
+                     type="S16"
+                     default="5"/>
+    </t:inputparameters>
+
+</t:config>

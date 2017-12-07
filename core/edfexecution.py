@@ -199,7 +199,10 @@ else:
         else:
             cmdLine = []
             if binName.endswith(".py"):
-                cmdLine.append("/usr/bin/python2.7")
+                if os.path.exists('/usr/local/bin/python'):
+                    cmdLine.append("/usr/local/bin/python")
+                else:
+                    cmdLine.append("/usr/bin/python")
             cmdLine.append("\"%s\"" % binName)
             cmdLine.append("--InConfig \"%s\"" % inName)        # Contains the input parameters
             cmdLine.append("--OutConfig \"%s\"" % pipeName)

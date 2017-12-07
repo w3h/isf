@@ -40,6 +40,7 @@ class VENDOR(object):
     MSH = {'en': 'Mitsubish', 'zh': '三菱'}
     BHM = {'en': 'Bachmann', 'zh': '巴赫曼'}
     KV = {'en': 'KingView', 'zh': '组态王'}
+    LX = {'en': 'Lantronix', 'zh': '创立'}
     ALL = {'en': 'All', 'zh': '全部'}
 
 class RISK(object):

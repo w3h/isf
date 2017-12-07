@@ -89,32 +89,35 @@ except:
 
     def sendSockets(*args):
         print "[!] sendSockets"
-        print args
+        #print args
 
     def closeRendezvous(*args):
         print "[!] closeRendezvous"
-        print args
+        #print args
 
     def connectRendezvous(*args):
         print "[!] connectRendezvous"
-        print args
+        #print args
 
     def recvSocket(*args):
         print "[!] recvSocket"
-        print args
+        #print args
 
     def disconnectRendezvous(*args):
         print "[!] disconnectRendezvous"
-        print args
+        #print args
 
     def writeParamsToEM(*args):
-        print "[!] writeParamsToEM"
-        print args
+        #print "[!] writeParamsToEM"
+        #print args
+        f = args[0]
+        f.write(str(args[1]))
 
     def openEMForWriting(*args):
         # _libraries['exma.dll'] = ctypes.CDLL('exma-1.dll')
-        print "[!] openEMForWriting"
-        print args
+        #print "[!] openEMForWriting"
+        f = open(str(args[0]), 'wb+')
+        return f
 
 
 __all__ = ['getDefaultEMFile', 'readParamsFromEM', 'writeParamsToEM',
