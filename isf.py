@@ -34,11 +34,8 @@ LOG_DIR    = os.path.join(ISF_DIR, "logs")
 ISF_CONFIG = os.path.join(ISF_DIR, "isf.xml")
 
 
-def make_env_path(): 
+def make_env_path():
     p = util.get_sitepackages_path()
-    if os.path.exists(os.path.join(p, "isf.pth")):
-        return
-
     f = open(os.path.join(p, "isf.pth"), "wb+")
     info = ISF_DIR + "\n"
     info += ISF_DIR + "/lib/protocols" + "\n"
