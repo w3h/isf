@@ -36,6 +36,7 @@
 '''
 import os, sys, re, time, string, struct, socket
 from subprocess import Popen, PIPE
+import psutil
 from multiprocessing.pool import ThreadPool
 from binascii import hexlify, unhexlify
 from ctypes import CDLL, POINTER, Structure, c_void_p, c_char_p, c_ushort, c_char, c_long, c_int, c_uint, c_ubyte, byref, create_string_buffer
@@ -134,30 +135,25 @@ def getAllInterfaces():
     # [2] = Current MAC (e.g. ff:ee:dd:cc:bb:aa)
     # [3] = Devicename (e.g. Intel 82575LM, Windows only)
     # [4] = DeviceGUID (e.g. {875F7EDB-CA23-435E-8E9E-DFC9E3314C55}, Windows only)
-    interfaces=[]
-    if os.name == 'nt': # This should work on Windows
-        proc=Popen("getmac /NH /V /FO csv | FINDSTR /V disconnected", shell=True, stdout=PIPE)
-        for interface in proc.stdout.readlines():
-            intarr = interface.split(',')
-            adapter = intarr[0].replace("\"","")
-            devicename = intarr[1].replace("\"","")
-            mac = intarr[2].replace("\"","").lower().replace("-",":")
-            winguid = intarr[3].replace("\"",'').replace('\n', '').replace('\r', '')[-38:]
-            proc = Popen("netsh int ip show addr \""+adapter+"\" | FINDSTR /I IP", shell=True, stdout=PIPE)
-            try:
-                ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', proc.stdout.readlines()[0].replace(" ",""))[0]
-            except:
-                ip = ''
-            interfaces=addToArr(interfaces, adapter, ip, mac, devicename, winguid)
+    netcard_info = []
+    info = psutil.net_if_addrs()
+    for k, v in info.items():
+        ninfo = ['', '', '', '', '']
+        ninfo[0] = k
+        for item in v:
+            if item[1] == '127.0.0.1':
+                break
+            if item[0] == 2:
+                ninfo[1] = item[1]
+            else:
+                ninfo[2] = item[1]
 
-    else: # And this on any Linux
-        #proc=Popen("for i in `ifconfig -a | grep \"Link encap:\" | awk '{print $1}'`;do echo \"$i `ifconfig $i | sed 's/inet addr:/inet addr: /' | grep \"inet addr:\" | awk '{print $3}'` `ifconfig $i | grep HWaddr | awk '{print $5}'`\" | sed '/lo/d';done", shell=True, stdout=PIPE)
-        proc=Popen("for i in $(ip address | grep -v \"lo\" | grep \"default\" | cut -d\":\" -f2 | cut -d\" \" -f2);do echo $i $(ip address show dev $i | grep \"inet \" | cut -d\" \" -f6 | cut -d\"/\" -f1) $(ip address show dev $i | grep \"ether\" | cut -d\" \" -f6);done", shell=True, stdout=PIPE)
-        for interface in proc.stdout.readlines():
-            intarr = interface.split(' ')
-            interfaces = addToArr(interfaces, intarr[0], intarr[1], intarr[2].replace('\n',''), '', '')
+        if ninfo[1] == '':
+            continue
 
-    return interfaces
+        netcard_info.append(ninfo)
+
+    return netcard_info
 
 ## Listing all NPF adapters and finding the correct one that has the Windows Devicename (\Device\NPF_{GUID})
 def findMatchingNPFDevice(windevicename):

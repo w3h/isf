@@ -8,12 +8,15 @@
           xmlns:t='tc0'>
 
     <t:inputparameters>
-        <t:parameter name="TargetIp"
-                     description="Target IP Address"
-                     type="IPv4"/>
-        <t:parameter name="Interface" description="Interface Name" type="String" default="eth0"/>
 
-        <t:paramchoice name="Command" description="Choose" default="FlashLED">
+      <t:parameter name="Interface" description="Interface Name" type="String" default="en4"/>
+      <t:parameter name="TargetIp"
+             description="Target IP Address"
+             type="IPv4"/>
+
+        <t:paramchoice name="Command" description="Choose" default="ScanDevices">
+          <t:paramgroup name="ScanDevices" description="Scan the network to find devices.">
+          </t:paramgroup>
           <t:paramgroup name="FlashLED" description="Flash LED">
               <t:parameter name="LoopTime" description="The Loop Time" type="U16" default="3"/>
           </t:paramgroup>
@@ -26,15 +29,9 @@
           <t:paramgroup name="ChangeOutputs" description="Change the Outputs">
               <t:parameter name="Arrays" description="What outputs to set please? [00000000]." type="String" default="00000000"/>
           </t:paramgroup>
-            <t:paramgroup name="ScanDevices" description="Scan the network to find devices.">
-          </t:paramgroup>
 
 
         </t:paramchoice>
-
-
-
-
 
     </t:inputparameters>
 
