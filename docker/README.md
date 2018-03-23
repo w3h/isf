@@ -24,7 +24,7 @@ isf_Docker旨在一键部署[isf攻击框架](https://github.com/w3h/isf)。您�
    service docker start
    ```
 
-   **其他平台：请参考[菜鸟教程](http://www.runoob.com/docker/docker-tutorial.html)**
+   **其他平台：请参考[教程](http://www.runoob.com/docker/docker-tutorial.html)**
 
 2. Docker使用
 
