@@ -1,6 +1,6 @@
-# Docker
+# Dockerfile介绍
 
-制作本Dockerfile旨在一键部署[isf攻击框架](https://github.com/w3h/isf)。您只需在电脑中安装好docker，就可以使用Dockerfile一键部署isf框架，并且可以一键开启isf攻击框架！
+本Dockerfile旨在一键部署[isf攻击框架](https://github.com/w3h/isf)。您只需在电脑中安装好docker，就可以使用Dockerfile一键部署isf框架。
 
 此外，为了方便大家使用isf攻击框架，我们集成了[butterfly](https://github.com/paradoxxxzero/butterfly)网页终端(web terminal)，使我们可以从浏览器访问Linux系统的后台（类似ssh连接）。这样就使得一台isf攻击服务器，多人共同使用的场景成为可能，更大程度上方便了教学使用。
 
@@ -31,8 +31,9 @@
    请以root用户运行以下命令
 
    ```
-   git clone https://github.com/w3h/isf_Docker
-   cd isf_docker
+   mkdir -p /root/isfdocker
+   cd /root/isfdocker
+   wget https://github.com/w3h/isf/raw/master/docker/Dockerfile
    docker build -t isf:v1 .
    ```
 
@@ -47,7 +48,7 @@
    
    输入默认密码：123456，即可登录
    
-   注:ip地址为Linux系统的ip地址,Ubuntu下使用ifconfig即可查看，CentOS可以输入ip addr察看
+   **注:ip地址为Linux系统的ip地址,Ubuntu下使用ifconfig即可查看，CentOS可以输入ip addr察看**
    
    登录完毕后，执行以下指令即可运行isf
    
